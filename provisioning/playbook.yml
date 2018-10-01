@@ -1,0 +1,20 @@
+- hosts: fedevel
+  gather_facts: yes
+  become: yes
+
+  tasks:
+   - name: fedora provision | basic
+     dnf:
+       state: latest
+       name: "{{ item }}"
+     with_items:
+       - love
+       - lua
+       - lua-devel
+       - openssl-devel
+       - golang-bin
+       - hugo
+       - pipenv
+       - git
+       - overpass-mono-fonts
+       - vim

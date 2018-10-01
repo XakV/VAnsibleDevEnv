@@ -1,0 +1,1 @@
+fedevel ansible_ssh_host=192.168.121.10 ansible_python_interpreter=/usr/bin/python3
