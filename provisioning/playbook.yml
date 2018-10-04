@@ -1,20 +1,35 @@
-- hosts: fedevel
+- hosts: fedev-supy
   gather_facts: yes
-  become: yes
+  become: true
 
   tasks:
-   - name: fedora provision | basic
-     dnf:
-       state: latest
-       name: "{{ item }}"
-     with_items:
-       - love
-       - lua
-       - lua-devel
-       - openssl-devel
-       - golang-bin
-       - hugo
-       - pipenv
-       - git
-       - overpass-mono-fonts
-       - vim
+    - name: fedora provision | add packages
+      dnf:
+        state: present
+        name: "{{ item }}"
+      with_items:
+        - pipenv
+        - git
+        - vim
+        - python3-virtualenv
+    - name: fedora provision | supybot
+      pip:
+        name: "{{ item }}"
+        executable: pip3
+        extra_args: --user
+      with_items:
+      - limnoria
+      - sgmllib3k
+      - requests
+      - pytz
+      - simplejson
+      - python-fedora
+      - arrow
+      - packagedb-cli
+      - pyyaml
+      - fedmsg
+      become_user: vagrant
+    - name: fedora provision | clone Flim
+      git:
+        repo: 'https://github.com/XakV/Flimnoria.git'
+        dest: /home/vagrant/Flimnoria
