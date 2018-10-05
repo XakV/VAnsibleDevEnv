@@ -11,16 +11,10 @@ Vagrant.configure("2") do |config|
   config.vm.box_version = "20180425"
   config.ssh.insert_key = false
   config.vm.define "fedev-supy"
-  config.vm.provider :libvirt do |l|
-    l.memory = 1024
-  end
-
   config.vm.hostname = "fedev-supy"
-  config.vm.network :public_network, 
-      :ip => "10.10.10.0",
-      :dev => "virbr0",
-      :mode => "bridge",
-      :type => "bridge"
+  config.vm.provider :libvirt do |domain|
+    domain.memory = 1024
+  end
 
   config.vm.provision "ansible" do | ansible |
     ansible.playbook = "provisioning/playbook.yml"
