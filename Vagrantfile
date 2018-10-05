@@ -10,15 +10,17 @@ Vagrant.configure("2") do |config|
   config.vm.box_check_update = true
   config.vm.box_version = "20180425"
   config.ssh.insert_key = false
-  config.vm.define "fedev-supy"
-  config.vm.hostname = "fedev-supy"
-  config.vm.provider :libvirt do |domain|
-    domain.memory = 1024
-  end
-
-  config.vm.provision "ansible" do | ansible |
-    ansible.playbook = "provisioning/playbook.yml"
-    ansible.inventory_path = "provisioning/inventory"
-    ansible.become = true
+  
+  config.vm.define :Flimnoria do |devel|
+    devel.vm.hostname = "Flimnoria"
+    devel.vm.provision "ansible" do | ansible |
+      ansible.verbose = true
+      ansible.playbook = "provisioning/playbook.yml"
+      ansible.become = true
+      ansible.raw_arguments = ["-e 'ansible_python_interpreter=/usr/bin/python3'"]
+      ansible.host_vars = { 
+        "Flimnoria" => {"ansible_python_interpreter" => "/usr/bin/python3"}
+      }
+    end
   end
 end
